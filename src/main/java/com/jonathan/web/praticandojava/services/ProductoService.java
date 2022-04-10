@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.jonathan.web.praticandojava.dto.ProductoDto;
 
-
-public interface ProductoService  {
+public interface ProductoService {
 
     public List<ProductoDto> listarProductos();
-    public Map<String,Object> saveProducto(ProductoDto productoDto);
-    
+
+    public Map<String, Object> saveProducto(ProductoDto productoDto);
+
 }

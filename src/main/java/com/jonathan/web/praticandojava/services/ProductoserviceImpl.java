@@ -3,7 +3,6 @@ package com.jonathan.web.praticandojava.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.jonathan.web.praticandojava.dto.ProductoDto;
@@ -30,15 +29,15 @@ public class ProductoserviceImpl implements ProductoService {
 
     @Override
     public List<ProductoDto> listarProductos() {
-        List<Producto>lProductos=productoRepository.findAll();
-        return lProductos.stream().map(producto->mapeaDto(producto)).collect(Collectors.toList());
+        List<Producto> lProductos = productoRepository.findAll();
+        return lProductos.stream().map(producto -> mapeaDto(producto)).collect(Collectors.toList());
     }
 
     @Override
     public Map<String, Object> saveProducto(ProductoDto productoDto) {
         Map<String, Object> mensaje = new HashMap<>();
-        Categoria categoria= categoriaRepository.findById(productoDto.getCategoriaId()).orElse(null);
-        if(categoria == null){
+        Categoria categoria = categoriaRepository.findById(productoDto.getCategoriaId()).orElse(null);
+        if (categoria == null) {
             mensaje.put("Mensaje", "No se encontro esa categoria");
             return mensaje;
         }
@@ -47,7 +46,7 @@ public class ProductoserviceImpl implements ProductoService {
         Producto guardarProducto = productoRepository.save(producto);
         ProductoDto productoDto2 = mapeaDto(guardarProducto);
         mensaje.put("Mensaje", "Se creo un nuevo producto");
-        mensaje.put("Producto", productoDto2);        
+        mensaje.put("Producto", productoDto2);
         return mensaje;
     }
 

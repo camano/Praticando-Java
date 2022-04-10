@@ -19,14 +19,15 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
-    
+
     @GetMapping
-    public ResponseEntity<?>ListarProductos(){
-        return new ResponseEntity<>(productoService.listarProductos(),HttpStatus.OK );
+    public ResponseEntity<?> ListarProductos() {
+        return new ResponseEntity<>(productoService.listarProductos(), HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addProducto")
-    public ResponseEntity<?>addProducto(@RequestBody ProductoDto productoDto){
+    public ResponseEntity<?> addProducto(@RequestBody ProductoDto productoDto) {
         return new ResponseEntity<>(productoService.saveProducto(productoDto), HttpStatus.CREATED);
     }
 

@@ -10,6 +10,7 @@ public class RegistroDTO {
 	private String email;
 	private String password;
 	private Set<String> roles = new HashSet<>();
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -36,12 +37,12 @@ public class RegistroDTO {
 
 	public String getPassword() {
 		return password;
-	}  
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public Set<String> getRoles() {
 		return roles;
 	}

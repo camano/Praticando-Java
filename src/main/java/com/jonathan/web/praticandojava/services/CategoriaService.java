@@ -5,7 +5,7 @@ import java.util.List;
 import com.jonathan.web.praticandojava.entity.Categoria;
 
 public interface CategoriaService {
-    
-    public List<Categoria>lCategorias();
-    
+
+    public List<Categoria> lCategorias();
+
 }

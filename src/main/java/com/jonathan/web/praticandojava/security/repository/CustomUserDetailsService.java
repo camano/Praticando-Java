@@ -17,20 +17,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 		Usuario usuario = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-				.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con ese username o email : " + usernameOrEmail));
-	
+				.orElseThrow(() -> new UsernameNotFoundException(
+						"Usuario no encontrado con ese username o email : " + usernameOrEmail));
+
 		return new User(usuario.getEmail(), usuario.getPassword(), mapearRoles(usuario.getRoles()));
 	}
 
-	private Collection<? extends GrantedAuthority> mapearRoles(Set<Rol> roles){
+	private Collection<? extends GrantedAuthority> mapearRoles(Set<Rol> roles) {
 		return roles.stream().map(rol -> new SimpleGrantedAuthority(rol.getNombre())).collect(Collectors.toList());
 	}
 }
