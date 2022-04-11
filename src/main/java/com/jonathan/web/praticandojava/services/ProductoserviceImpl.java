@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.jonathan.web.praticandojava.dto.CategotiaDto;
 import com.jonathan.web.praticandojava.dto.ProductoDto;
 import com.jonathan.web.praticandojava.entity.Categoria;
 import com.jonathan.web.praticandojava.entity.Producto;
@@ -30,13 +31,18 @@ public class ProductoserviceImpl implements ProductoService {
     @Override
     public List<ProductoDto> listarProductos() {
         List<Producto> lProductos = productoRepository.findAll();
-        return lProductos.stream().map(producto -> mapeaDto(producto)).collect(Collectors.toList());
+        return lProductos.stream().map(producto -> mapeaDto2(producto)).collect(Collectors.toList());
+    }
+    @Override
+    public List<Producto> listarProductos2() {
+        
+        return(List<Producto>) productoRepository.findAll();
     }
 
     @Override
-    public Map<String, Object> saveProducto(ProductoDto productoDto) {
+    public Map<String, Object> saveProducto(ProductoDto productoDto,long id) {
         Map<String, Object> mensaje = new HashMap<>();
-        Categoria categoria = categoriaRepository.findById(productoDto.getCategoriaId()).orElse(null);
+        Categoria categoria = categoriaRepository.findById(id).orElse(null);
         if (categoria == null) {
             mensaje.put("Mensaje", "No se encontro esa categoria");
             return mensaje;
@@ -54,9 +60,17 @@ public class ProductoserviceImpl implements ProductoService {
     private ProductoDto mapeaDto(Producto producto) {
         return modelMapper.map(producto, ProductoDto.class);
     }
+    private ProductoDto mapeaDto2(Producto producto) {
+        CategotiaDto CategotiaDto= modelMapper.map(producto.getCategoria(), CategotiaDto.class);
+        ProductoDto productoDto =modelMapper.map(producto, ProductoDto.class);
+        productoDto.setCategotiaDto(CategotiaDto);
+        return productoDto;
+    }
 
     // Convierte de DTO a Entidad
     private Producto mapearEntidad(ProductoDto productoDto) {
         return modelMapper.map(productoDto, Producto.class);
     }
+
+
 }

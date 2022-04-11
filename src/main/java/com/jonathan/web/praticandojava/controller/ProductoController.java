@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class ProductoController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/addProducto")
-    public ResponseEntity<?> addProducto(@RequestBody ProductoDto productoDto) {
-        return new ResponseEntity<>(productoService.saveProducto(productoDto), HttpStatus.CREATED);
+    @PostMapping("/{categoriaid}/addProducto")
+    public ResponseEntity<?> addProducto(@RequestBody ProductoDto productoDto,@PathVariable(value = "categoriaid") Long id) {
+        return new ResponseEntity<>(productoService.saveProducto(productoDto,id), HttpStatus.CREATED);
     }
 
 }

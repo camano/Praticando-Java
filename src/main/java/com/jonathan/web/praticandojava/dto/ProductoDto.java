@@ -8,16 +8,16 @@ public class ProductoDto {
     private String nombre;
     private BigDecimal precio;
     private String imagen;
-    private Long categoriaId;
+    private CategotiaDto categoria;
 
     public ProductoDto() {
     }
 
-    public ProductoDto(String nombre, BigDecimal precio, String imagen, Long categoriaId) {
+    public ProductoDto(String nombre, BigDecimal precio, String imagen, CategotiaDto categotiaDto) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
-        this.categoriaId = categoriaId;
+        this.categoria = categotiaDto;
     }
 
     public Long getId() {
@@ -52,12 +52,12 @@ public class ProductoDto {
         this.imagen = imagen;
     }
 
-    public Long getCategoriaId() {
-        return categoriaId;
+    public CategotiaDto getCategoria() {
+        return categoria;
     }
 
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setCategotiaDto(CategotiaDto categoria) {
+        this.categoria = categoria;
     }
 
 }
