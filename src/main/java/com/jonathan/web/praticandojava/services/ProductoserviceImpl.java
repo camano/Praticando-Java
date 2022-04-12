@@ -31,7 +31,7 @@ public class ProductoserviceImpl implements ProductoService {
     @Override
     public List<ProductoDto> listarProductos() {
         List<Producto> lProductos = productoRepository.findAll();
-        return lProductos.stream().map(producto -> mapeaDto2(producto)).collect(Collectors.toList());
+        return lProductos.stream().map(producto -> mapeaDto(producto)).collect(Collectors.toList());
     }
     @Override
     public List<Producto> listarProductos2() {
@@ -58,14 +58,15 @@ public class ProductoserviceImpl implements ProductoService {
 
     // Convierte entidad a DTO
     private ProductoDto mapeaDto(Producto producto) {
-        return modelMapper.map(producto, ProductoDto.class);
-    }
-    private ProductoDto mapeaDto2(Producto producto) {
-        CategotiaDto CategotiaDto= modelMapper.map(producto.getCategoria(), CategotiaDto.class);
-        ProductoDto productoDto =modelMapper.map(producto, ProductoDto.class);
-        productoDto.setCategotiaDto(CategotiaDto);
+        ProductoDto productoDto= modelMapper.map(producto, ProductoDto.class);
+        if(producto.getCategoria()!= null){
+            productoDto.setCategotiaDto(modelMapper.map(producto.getCategoria(), CategotiaDto.class));
+        }
+        
         return productoDto;
+        
     }
+     
 
     // Convierte de DTO a Entidad
     private Producto mapearEntidad(ProductoDto productoDto) {
