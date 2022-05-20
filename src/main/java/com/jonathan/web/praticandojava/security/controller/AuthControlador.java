@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.jonathan.web.praticandojava.security.dto.LoginDTO;
 import com.jonathan.web.praticandojava.security.dto.RegistroDTO;
+import com.jonathan.web.praticandojava.security.dto.TokenDto;
 import com.jonathan.web.praticandojava.security.entity.Rol;
 import com.jonathan.web.praticandojava.security.entity.Usuario;
 import com.jonathan.web.praticandojava.security.jwt.JWTAuthResonseDTO;
@@ -44,7 +45,7 @@ public class AuthControlador {
 	private JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/login")
-	public ResponseEntity<JWTAuthResonseDTO> authenticateUser(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<TokenDto> authenticateUser(@RequestBody LoginDTO loginDTO) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
 
@@ -52,12 +53,11 @@ public class AuthControlador {
 
 		// obtenemos el token del jwtTokenProvider
 		String token = jwtTokenProvider.generarToken(authentication);
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-		JWTAuthResonseDTO jwtAuthResonseDTO = new JWTAuthResonseDTO(token, userDetails.getUsername(),
-				userDetails.getAuthorities());
 
-		return new ResponseEntity<>(jwtAuthResonseDTO, HttpStatus.OK);
+	TokenDto tokenDto = new TokenDto(token);
+
+		return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 	}
 
 	@PostMapping("/registrar")

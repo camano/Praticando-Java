@@ -1,9 +1,14 @@
 package com.jonathan.web.praticandojava.security.jwt;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -24,11 +29,13 @@ public class JwtTokenProvider {
 	private int jwtExpirationInMs;
 
 	public String generarToken(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		String username = authentication.getName();
 		Date fechaActual = new Date();
 		Date fechaExpiracion = new Date(fechaActual.getTime() + jwtExpirationInMs);
-
-		String token = Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(fechaExpiracion)
+		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+		.collect(Collectors.toList());
+		String token = Jwts.builder().setSubject(username).claim("roles", roles).setIssuedAt(new Date()).setExpiration(fechaExpiracion)
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 
 		return token;

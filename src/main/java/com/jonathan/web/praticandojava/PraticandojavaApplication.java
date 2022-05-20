@@ -15,6 +15,7 @@ public class PraticandojavaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PraticandojavaApplication.class, args);
+		
 	}
 
 }
